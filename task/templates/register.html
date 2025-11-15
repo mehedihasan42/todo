@@ -1,5 +1,86 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
 
-{% block content %}
-  
-{% endblock content %}
+    <!-- Simple styling -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 40px;
+        }
+        .container {
+            width: 400px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        .errorlist {
+            color: red;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Create Account</h2>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        
+        {{ form.non_field_errors }}
+
+        <!-- Username -->
+        <label>Username</label>
+        {{ form.username }}
+        {{ form.username.errors }}
+
+        <!-- Email (if you added email field manually) -->
+        {% if form.email %}
+            <label>Email</label>
+            {{ form.email }}
+            {{ form.email.errors }}
+        {% endif %}
+
+        <!-- Passwords -->
+        <label>Password</label>
+        {{ form.password1 }}
+        {{ form.password1.errors }}
+
+        <label>Confirm Password</label>
+        {{ form.password2 }}
+        {{ form.password2.errors }}
+
+        <button type="submit">Register</button>
+    </form>
+</div>
+
+</body>
+</html>

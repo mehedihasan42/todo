@@ -10,10 +10,5 @@ class TaskForm(forms.ModelForm):
 
       widgets = {
          'due_date' : forms.DateInput(attrs = {'type':'date'}),
-         'due_time' : forms.TimeField(attrs = {'type':'time'})
+         'due_time' : forms.TimeInput(attrs = {'type':'time'})
       }
-
-class CreateUser(UserCreationForm):
-   class Meta:
-      model = User
-      fields

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path,include
-from .models import task_list,task_create,task_detail,register
+from .views import task_list,task_create,task_detail,register
 
 urlpatterns = [
   path('task/',task_list,name='task_list'),

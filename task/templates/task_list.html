@@ -1,14 +1,79 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-<div class="card">
-  <div class="card-header">
-    Featured
-  </div>
-  <div class="card-body">
-    <h5 class="card-title">Special title treatment</h5>
-    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
+<div class="max-w-4xl mx-auto p-6">
+
+    <!-- Page Title -->
+    <h1 class="text-3xl font-bold mb-6 text-center">My Tasks</h1>
+
+    <!-- Filters -->
+    <form method="GET" class="bg-white shadow p-4 rounded-lg mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        <!-- Status Filter -->
+        <div>
+            <label class="block font-semibold mb-1">Status</label>
+            <select name="status" class="w-full border p-2 rounded">
+                <option value="all" {% if status_filrer == 'all' %}selected{% endif %}>All</option>
+                <option value="completed" {% if status_filrer == 'completed' %}selected{% endif %}>Completed</option>
+                <option value="pending" {% if status_filrer == 'pending' %}selected{% endif %}>Pending</option>
+            </select>
+        </div>
+
+        <!-- Category Filter -->
+        <div>
+            <label class="block font-semibold mb-1">Category</label>
+            <select name="category" class="w-full border p-2 rounded">
+                <option value="all" {% if category_filter == 'all' %}selected{% endif %}>All</option>
+                <option value="work" {% if category_filter == 'work' %}selected{% endif %}>Work</option>
+                <option value="personal" {% if category_filter == 'personal' %}selected{% endif %}>Personal</option>
+                <option value="other" {% if category_filter == 'other' %}selected{% endif %}>Other</option>
+            </select>
+        </div>
+
+        <div class="flex items-end">
+            <button class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">
+                Filter
+            </button>
+        </div>
+
+    </form>
+
+    <!-- Pending Tasks -->
+    <h2 class="text-2xl font-semibold mb-3 text-yellow-600">Pending Tasks</h2>
+
+    {% if pendding_task %}
+        <div class="space-y-4">
+            {% for task in pendding_task %}
+            <div class="bg-white p-4 rounded-lg shadow border-l-4 border-yellow-500">
+                <h3 class="text-xl font-bold">{{ task.title }}</h3>
+                <p class="text-gray-700">{{ task.description }}</p>
+                <p class="text-sm text-gray-500">Category: {{ task.category }}</p>
+                <p class="text-sm text-gray-500">Due: {{ task.due_date }} {{ task.due_time }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-gray-600">No pending tasks.</p>
+    {% endif %}
+
+    <!-- Completed Tasks -->
+    <h2 class="text-2xl font-semibold mt-10 mb-3 text-green-600">Completed Tasks</h2>
+
+    {% if conpleted_task %}
+        <div class="space-y-4">
+            {% for task in conpleted_task %}
+            <div class="bg-white p-4 rounded-lg shadow border-l-4 border-green-600">
+                <h3 class="text-xl font-bold line-through">{{ task.title }}</h3>
+                <p class="text-gray-700 line-through">{{ task.description }}</p>
+                <p class="text-sm text-gray-500">Category: {{ task.category }}</p>
+                <p class="text-sm text-gray-500">Completed</p>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-gray-600">No completed tasks.</p>
+    {% endif %}
+
 </div>
-{% endblock content %}
+{% endblock %}

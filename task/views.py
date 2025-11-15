@@ -19,7 +19,7 @@ def task_list(request):
     conpleted_task = task.filter(is_completed = True)    
     pendding_task = task.filter(is_completed = False)
 
-    return render(request,'',{
+    return render(request,'task_list.html',{
         'conpleted_task':conpleted_task,
         'pendding_task':pendding_task,
         'status_filrer':status_filrer,
@@ -37,7 +37,8 @@ def task_create(request):
         return redirect('')
     else:
         form = TaskForm()
-    return render(request,'',{'form':form})    
+    return render(request,'task_create.html',{'form':form})    
+
 
 def task_detail(request,pk):
     task = get_object_or_404(Task,id=pk,user=request.user)
@@ -55,12 +56,11 @@ def register(request):
 
     if form.is_valid():
         form.save()
-        username = form.cleaned_data.get(username)
-        password = form.cleaned_data.get(password)
-        user = authenticate(username,password)
-        login(user)
-        return redirect('')
+        username = form.cleaned_data.get('username')
+        password = form.cleaned_data.get('password1')
+        user = authenticate(username=username,password=password)
+        login(request,user)
+        return redirect('task_list')
     else:
         form = UserCreationForm()
-    return render(request,'',{'form':form})    
-
+    return render(request,'register.html',{'form':form})    
