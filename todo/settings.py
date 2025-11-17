@@ -25,8 +25,8 @@ SECRET_KEY = 'django-insecure-fu+@3lw=u3w8tduq1^$7b((!fzej#o2_&0kb0%tfu928ai!qju
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-CSRF_TRUSTED_ORIGINS = []
+ALLOWED_HOSTS = ['https://todo-mhp2.onrender.com','todo-mhp2.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://todo-mhp2.onrender.com']
 
 
 # Application definition
