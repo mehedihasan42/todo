@@ -2,9 +2,12 @@ from django.shortcuts import render,redirect,get_object_or_404
 from .models import Task
 from .forms import TaskForm
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required
 def task_list(request):
     status_filrer = request.GET.get('status','all')
     category_filter = request.GET.get('category','all')
@@ -26,7 +29,7 @@ def task_list(request):
         'category_filter':category_filter
     })  
 
-
+@login_required
 def task_create(request):
     form = TaskForm(request.POST)
 
@@ -34,22 +37,23 @@ def task_create(request):
         form = form.save(commit=False)
         form.user = request.user
         form.save()
-        return redirect('')
+        return redirect('task_list')
     else:
         form = TaskForm()
     return render(request,'task_create.html',{'form':form})    
 
-
+@login_required
 def task_detail(request,pk):
     task = get_object_or_404(Task,id=pk,user=request.user)
     return render(request,'',{'task':task})
 
-
+@login_required
 def task_mark_completed(request,pk):
     task = get_object_or_404(Task,id=pk,user=request.user)
     task.is_completed = True
     task.save()
-    return redirect('')
+    return redirect('task_list')
+
 
 def register(request):
     form = UserCreationForm(request.POST)
@@ -64,3 +68,25 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request,'register.html',{'form':form})    
+
+
+def user_login(request):
+   if request.method == 'POST':
+       username = request.POST.get('username')
+       password = request.POST.get('password')
+
+       user = authenticate(request,username=username,password=password)
+
+       if user is not None:
+          login(request,user)
+          messages.success(request,f"Welcome,{user.username}!")
+          return redirect('task_list')
+       else:
+           messages.error(request,"Invalid username or password")
+
+   return render(request,'login.html')   
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('user_login')

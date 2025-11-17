@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-fu+@3lw=u3w8tduq1^$7b((!fzej#o2_&0kb0%tfu928ai!qju
 DEBUG = True
 
 ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = []
 
 
 # Application definition
@@ -45,6 +46,8 @@ INSTALLED_APPS = [
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+LOGIN_URL = '/register/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

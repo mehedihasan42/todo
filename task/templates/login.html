@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Registration</title>
+    <title>User Login</title>
 
-    <!-- Simple styling -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -40,12 +39,13 @@
             font-size: 16px;
             border-radius: 5px;
         }
-        .errorlist {
+        .errorlist, .msg-error {
             color: red;
             font-size: 14px;
             margin-bottom: 10px;
+            text-align: left;
         }
-           a {
+        a {
             display: block;
             text-align: center;
             margin-top: 15px;
@@ -56,37 +56,27 @@
 <body>
 
 <div class="container">
-    <h2>Create Account</h2>
+    <h2>Login</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p class="msg-error">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
 
     <form action="" method="POST">
         {% csrf_token %}
-        
-        {{ form.non_field_errors }}
 
-        <!-- Username -->
         <label>Username</label>
-        {{ form.username }}
-        {{ form.username.errors }}
+        <input type="text" name="username" required>
 
-        <!-- Email (if you added email field manually) -->
-        {% if form.email %}
-            <label>Email</label>
-            {{ form.email }}
-            {{ form.email.errors }}
-        {% endif %}
-
-        <!-- Passwords -->
         <label>Password</label>
-        {{ form.password1 }}
-        {{ form.password1.errors }}
+        <input type="password" name="password" required>
 
-        <label>Confirm Password</label>
-        {{ form.password2 }}
-        {{ form.password2.errors }}
-
-        <button type="submit">Register</button>
+        <button type="submit">Login</button>
     </form>
-    <a href={% url "user_login" %}>Already have an account? Go to login</a>
+
+    <a href="{% url 'register' %}">Create an account</a>
 </div>
 
 </body>
